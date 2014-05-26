@@ -34,11 +34,11 @@ install_zsh () {
 # Test to see if zshell is installed.  If it is:
 if [ -f ${HOME}/bin/zsh ]; then
   # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-  if [[ ! -d ${dir} ]]; then
+  if [ ! -d ${dir} ]; then
     git clone http://github.com/JakeTobak/dotfiles.git
   fi
   # Set the default shell to zsh if it isn't currently set to zsh
-  if [[ ! "${SHELL}" == "${HOME}/bin/zsh" ]]; then
+  if [ ! "${SHELL}" == "${HOME}/bin/zsh" ]; then
     chsh -s "${HOME}/bin/zsh"
   fi
 else
