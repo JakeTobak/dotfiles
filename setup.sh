@@ -32,14 +32,15 @@ done
 
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
-if [ -f ${HOME}/bin/zsh ]; then
+if [ -f /bin/zsh -o -f /usr/bin/zsh -f ${HOME}/bin/zsh ]; then
   # Clone my oh-my-zsh repository from GitHub only if it isn't already present
   if [ ! -d ${dir} ]; then
+    cd ~
     git clone http://github.com/JakeTobak/dotfiles.git
   fi
   # Set the default shell to zsh if it isn't currently set to zsh
-  if [ ! ${SHELL} == ${HOME}/bin/zsh ]; then
-    chsh -s "${HOME}/bin/zsh"
+  if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
+    chsh -s $(which zsh)
   fi
 else
   local tempdir=$(mktemp --directory)
