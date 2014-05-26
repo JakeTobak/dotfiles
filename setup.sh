@@ -32,7 +32,7 @@ done
 
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
-if [ -f /bin/zsh -o -f /usr/bin/zsh -f ${HOME}/bin/zsh ]; then
+if [ -f /bin/zsh -o -f /usr/bin/zsh -o -f ${HOME}/bin/zsh ]; then
   # Clone my oh-my-zsh repository from GitHub only if it isn't already present
   if [ ! -d ${dir} ]; then
     cd ~
