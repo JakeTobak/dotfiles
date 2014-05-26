@@ -50,9 +50,11 @@ else
   curl -L http://www.zsh.org/pub/zsh.tar.gz \
     | tar -zx --strip-components 1 -C ${tempdir}
   mkdir -p ${HOME}/bin
-  ${tempdir}/configure --prefix=$HOME/bin
+  cd ${tempdir}
+  ./configure --prefix=$HOME/bin
   make
   make install
+  cd --
   rm -rf ${tempdir}
 fi
 }
