@@ -38,7 +38,7 @@ if [ -f ${HOME}/bin/zsh ]; then
     git clone http://github.com/JakeTobak/dotfiles.git
   fi
   # Set the default shell to zsh if it isn't currently set to zsh
-  if [ ! "${SHELL}" == "${HOME}/bin/zsh" ]; then
+  if [ ! ${SHELL} == ${HOME}/bin/zsh ]; then
     chsh -s "${HOME}/bin/zsh"
   fi
 else
