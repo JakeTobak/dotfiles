@@ -38,10 +38,6 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh -o -f ${HOME}/bin/zsh ]; then
     cd ~
     git clone http://github.com/JakeTobak/dotfiles.git
   fi
-  # Set the default shell to zsh if it isn't currently set to zsh
-  if [ ! $(echo $SHELL) = $(which zsh) ]; then
-    chsh -s $(which zsh)
-  fi
 else
   local tempdir=$(mktemp --directory)
   curl -L http://www.zsh.org/pub/zsh.tar.gz \
