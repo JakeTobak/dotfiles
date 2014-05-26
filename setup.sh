@@ -17,10 +17,6 @@ echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
 mkdir -p $olddir
 echo "done"
 
-echo -n "Creating $dir for dotfiles in ~ ..."
-mkdir -p $dir
-echo "done"
-
 # change to the dotfiles directory
 echo -n "Changing to the $dir directory ..."
 cd $dir
@@ -58,6 +54,7 @@ else
   cd -
   rm -rf ${tempdir}
   ln -s ${HOME}/etc/zsh/bin/zsh ${HOME}/bin/zsh
+  install_zsh
 fi
 }
 
