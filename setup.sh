@@ -17,6 +17,10 @@ echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
 mkdir -p $olddir
 echo "done"
 
+echo -n "Creating $dir for dotfiles in ~ ..."
+mkdir -p $dir
+echo "done"
+
 # change to the dotfiles directory
 echo -n "Changing to the $dir directory ..."
 cd $dir
