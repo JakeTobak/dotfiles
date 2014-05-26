@@ -32,7 +32,7 @@ done
 
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
-if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
+if [ -f /bin/zsh -o -f /usr/bin/zsh -o -f ~/bin/zsh ]; then
     # Clone my oh-my-zsh repository from GitHub only if it isn't already present
     if [[ ! -d $dir/oh-my-zsh/ ]]; then
         git clone http://github.com/robbyrussell/oh-my-zsh.git
@@ -42,17 +42,14 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
         chsh -s $(which zsh)
     fi
 else
-    # If zsh isn't installed, get the platform of the current machine
-    platform=$(uname);
-    # If the platform is Linux, try an apt-get to install zsh and then recurse
-    if [[ $platform == 'Linux' ]]; then
-        sudo apt-get install zsh
-        install_zsh
-    # If the platform is OS X, tell the user to install zsh :)
-    elif [[ $platform == 'Darwin' ]]; then
-        echo "Please install zsh, then re-run this script!"
-        exit
-    fi
+  local tempdir=$(mktemp --directory)
+  curl -L http://www.zsh.org/pub/zsh.tar.gz \
+    | tar -zx --strip-components 1 -C ${tempdir}
+  mkdir -p ${HOME}/bin
+  ${tempdir}/configure --prefix=$HOME/bin
+  make
+  make install
+  rm -rf ${tempdir}
 fi
 }
 

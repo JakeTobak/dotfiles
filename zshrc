@@ -129,3 +129,9 @@ function mkpass(){
   tr -dc '_A-Z-a-z-0-9=@~^.\&\?\!+-' < /dev/urandom \
     | head -c${1:-$((RANDOM%32+16))}; echo;
 }
+
+function sz(){
+  ls -l "${1:-.}" \
+    | sort -n +3 \
+    | tail -10
+}
