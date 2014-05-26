@@ -28,34 +28,36 @@ echo "done"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
-    echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/.$file ~/dotfiles_old/
-    echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file ~/.$file
+  echo "Moving any existing dotfiles from ~ to $olddir"
+  mv ~/.$file ~/dotfiles_old/
+  echo "Creating symlink to $file in home directory."
+  ln -s $dir/$file ~/.$file
 done
 
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
-if [ -f /bin/zsh -o -f /usr/bin/zsh -o -f ~/bin/zsh ]; then
-    # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-    if [[ ! -d $dir/oh-my-zsh/ ]]; then
-        git clone http://github.com/robbyrussell/oh-my-zsh.git
-    fi
-    # Set the default shell to zsh if it isn't currently set to zsh
-    if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
-        chsh -s $(which zsh)
-    fi
+if [ -f ${HOME}/bin/zsh ]; then
+  # Clone my oh-my-zsh repository from GitHub only if it isn't already present
+  if [[ ! -d ${dir}/oh-my-zsh/ ]]; then
+    git clone http://github.com/robbyrussell/oh-my-zsh.git
+  fi
+  # Set the default shell to zsh if it isn't currently set to zsh
+  if [[ ! "${SHELL}" == "${HOME}/bin/zsh" ]]; then
+    chsh -s "${HOME}/bin/zsh"
+  fi
 else
   local tempdir=$(mktemp --directory)
   curl -L http://www.zsh.org/pub/zsh.tar.gz \
     | tar -zx --strip-components 1 -C ${tempdir}
   mkdir -p ${HOME}/bin
+  mkdir -p ${HOME}/etc/zsh
   cd ${tempdir}
-  ./configure --prefix=$HOME/bin
+  ./configure --prefix=${HOME}/etc/zsh
   make
   make install
-  cd --
+  cd -
   rm -rf ${tempdir}
+  ln -s ${HOME}/etc/zsh/bin/zsh ${HOME}/bin/zsh
 fi
 }
 
