@@ -5,6 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
+# ZSH_THEME="robbyrussell"
 ZSH_THEME="jtobak"
 
 # Example aliases
@@ -85,7 +86,7 @@ alias .6='cd ../../../../../../'
 alias .7='cd ../../../../../../../'
 alias .8='cd ../../../../../../../../'
 
-alias grep=egrep
+alias grep='LC_ALL=C egrep'
 alias make=gmake
 
 function t() {
@@ -130,8 +131,24 @@ function mkpass(){
     | head -c${1:-$((RANDOM%32+16))}; echo;
 }
 
-function sz(){
-  ls -l "${1:-.}" \
-    | sort -n +3 \
-    | tail -10
+function human() {
+  local base=1000
+  local suffix=("B" "kB" "MB" "GB" "TB" "PB" "EB" "ZB" "YB")
+  local suffix_index=0
+  local OPTIND
+  while getopts ":i" o; do
+  case "${o}" in
+    i)
+      base=1024
+      suffix=("B" "KiB" "MiB" "GiB" "TiB" "PiB" "EiB" "ZiB" "YiB")
+      ;;
+    esac
+  done
+  shift $(($OPTIND-1))
+  local x=$1
+  while [ $( bc -l <<< "${x} >= ${base}" ) -eq 1 ] ; do
+    x=$( echo "$x / ${base}" | bc -l )
+    suffix_index+=1
+  done
+  printf "%.1f %s\n" ${x} ${suffix[${suffix_index}]}
 }
